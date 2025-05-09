@@ -17,11 +17,19 @@ export default function UpdateMedicationScreen() {
   const navigation = useNavigation<UpdateMedicationScreenNavigationProp>();
   const { medicationId } = route.params;
 
+  const getLocalDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [medication, setMedication] = useState({
     name: '',
     dosage: '',
     frequency: '',
-    date: '',
+    date: getLocalDate(),
     purpose: '',
   });
   const [loading, setLoading] = useState(true);
@@ -37,7 +45,14 @@ export default function UpdateMedicationScreen() {
       setLoading(true);
       const loadedMedication = await getMedication(medicationId);
       if (loadedMedication) {
-        setMedication(loadedMedication);
+        const today = getLocalDate();
+        // If the original date is different from today, we'll create a new record
+        const willCreateNewRecord = loadedMedication.date !== today;
+        setIsNewRecord(willCreateNewRecord);
+        setMedication({
+          ...loadedMedication,
+          date: today, // Set to today's date
+        });
       }
     } catch (error) {
       console.error('Error loading medication:', error);

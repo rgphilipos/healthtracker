@@ -18,11 +18,19 @@ export default function UpdateSymptomScreen() {
   const navigation = useNavigation<UpdateSymptomScreenNavigationProp>();
   const { symptomId } = route.params;
 
+  const getLocalDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [symptom, setSymptom] = useState({
     name: '',
     severity: 1,
     notes: '',
-    date: '',
+    date: getLocalDate(),
   });
   const [loading, setLoading] = useState(true);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -37,7 +45,15 @@ export default function UpdateSymptomScreen() {
       setLoading(true);
       const loadedSymptom = await getSymptom(symptomId);
       if (loadedSymptom) {
-        setSymptom(loadedSymptom);
+        const today = getLocalDate();
+        // If the original date is different from today, we'll create a new record
+        const willCreateNewRecord = loadedSymptom.date !== today;
+        setIsNewRecord(willCreateNewRecord);
+        setSymptom({
+          ...loadedSymptom,
+          date: today, // Set to today's date
+          notes: willCreateNewRecord ? '' : loadedSymptom.notes, // Clear notes if creating new record
+        });
       }
     } catch (error) {
       console.error('Error loading symptom:', error);
@@ -157,7 +173,7 @@ export default function UpdateSymptomScreen() {
           <Text style={styles.symptomName}>{symptom.name}</Text>
           
           <View style={styles.sliderContainer}>
-            <Text style={styles.sliderLabel}>Severity: {symptom.severity}</Text>
+            <Text style={styles.sliderLabel}>Severity (low is less and high is more): {symptom.severity}</Text>
             <Slider
               style={styles.slider}
               minimumValue={1}
