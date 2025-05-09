@@ -8,4 +8,7 @@ export type RootStackParamList = {
   UpdateMedication: {
     medicationId: string;
   };
+  UpdateNote: {
+    noteId: string;
+  };
 }; 

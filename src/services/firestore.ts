@@ -185,4 +185,33 @@ export const getNotes = async (): Promise<(NoteData & BaseItem)[]> => {
     console.error('Error getting notes:', error);
     throw error;
   }
+};
+
+export const getNote = async (id: string): Promise<NoteData & BaseItem> => {
+  try {
+    const docRef = doc(db, 'notes', id);
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
+      throw new Error('Note not found');
+    }
+
+    return {
+      id: docSnap.id,
+      ...docSnap.data()
+    } as NoteData & BaseItem;
+  } catch (error) {
+    console.error('Error getting note:', error);
+    throw error;
+  }
+};
+
+export const updateNote = async (id: string, data: Partial<NoteData>) => {
+  try {
+    const docRef = doc(db, 'notes', id);
+    await updateDoc(docRef, data);
+  } catch (error) {
+    console.error('Error updating note:', error);
+    throw error;
+  }
 }; 

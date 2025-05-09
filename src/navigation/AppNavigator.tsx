@@ -5,6 +5,7 @@ import MedicationsScreen from '../screens/MedicationsScreen';
 import NotesScreen from '../screens/NotesScreen';
 import UpdateSymptomScreen from '../screens/UpdateSymptomScreen';
 import UpdateMedicationScreen from '../screens/UpdateMedicationScreen';
+import UpdateNoteScreen from '../screens/UpdateNoteScreen';
 import { RootStackParamList } from '../types/navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,6 +37,11 @@ export default function AppNavigator() {
         name="UpdateMedication" 
         component={UpdateMedicationScreen}
         options={{ title: 'Update Medication' }}
+      />
+      <Stack.Screen 
+        name="UpdateNote" 
+        component={UpdateNoteScreen}
+        options={{ title: 'Update Note' }}
       />
     </Stack.Navigator>
   );
