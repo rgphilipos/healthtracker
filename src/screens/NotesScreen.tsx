@@ -207,8 +207,14 @@ export default function NotesScreen() {
         >
           <Text style={styles.activeNavButtonText}>Notes</Text>
         </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.navButton}
+          onPress={() => navigation.navigate('History')}
+        >
+          <Text style={styles.navButtonText}>History</Text>
+        </TouchableOpacity>
       </View>
-
+      
       <ScrollView style={styles.content}>
         {/* Treatment Plans Section */}
         <View style={styles.section}>
@@ -265,32 +271,32 @@ export default function NotesScreen() {
         {/* Add New Note Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Add New Note</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Title"
-            value={newNote.title}
-            onChangeText={(text) => setNewNote(prev => ({ ...prev, title: text }))}
-          />
-          {renderDatePicker()}
-          <TextInput
-            style={[styles.input, styles.contentInput]}
-            placeholder="Content"
-            multiline
-            value={newNote.content}
-            onChangeText={(text) => setNewNote(prev => ({ ...prev, content: text }))}
-          />
-          <TouchableOpacity 
-            style={[styles.categoryButton, newNote.category === 'treatment' && styles.categoryButtonActive]}
-            onPress={toggleCategory}
-          >
+        <TextInput
+          style={styles.input}
+          placeholder="Title"
+          value={newNote.title}
+          onChangeText={(text) => setNewNote(prev => ({ ...prev, title: text }))}
+        />
+        {renderDatePicker()}
+        <TextInput
+          style={[styles.input, styles.contentInput]}
+          placeholder="Content"
+          multiline
+          value={newNote.content}
+          onChangeText={(text) => setNewNote(prev => ({ ...prev, content: text }))}
+        />
+        <TouchableOpacity 
+          style={[styles.categoryButton, newNote.category === 'treatment' && styles.categoryButtonActive]}
+          onPress={toggleCategory}
+        >
             <Text style={[styles.categoryButtonText, newNote.category === 'treatment' && styles.categoryButtonTextActive]}>
-              {newNote.category === 'life' ? 'Life Notes' : 'Treatment Plan'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.addButton} onPress={addNoteHandler}>
-            <Text style={styles.addButtonText}>Add Note</Text>
-          </TouchableOpacity>
-        </View>
+            {newNote.category === 'life' ? 'Life Notes' : 'Treatment Plan'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={addNoteHandler}>
+          <Text style={styles.addButtonText}>Add Note</Text>
+        </TouchableOpacity>
+      </View>
       </ScrollView>
     </SafeAreaView>
   );

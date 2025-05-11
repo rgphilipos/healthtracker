@@ -199,6 +199,12 @@ export default function MedicationsScreen() {
         >
           <Text style={styles.navButtonText}>Notes</Text>
         </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.navButton}
+          onPress={() => navigation.navigate('History')}
+        >
+          <Text style={styles.navButtonText}>History</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content}>

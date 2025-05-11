@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Platform, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,16 +9,14 @@ import { addSymptom, getSymptoms } from '../services/firestore';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
+import { Symptom } from '../types/symptoms';
 
 type SymptomsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Symptoms'>;
 
-interface Symptom {
-  id: string;
-  name: string;
-  severity: number;
-  notes: string;
-  date: string;
-  createdAt: string;
+interface DatePickerEvent {
+  target: {
+    value: string;
+  };
 }
 
 export default function SymptomsScreen() {
@@ -90,7 +89,7 @@ export default function SymptomsScreen() {
     }
   };
 
-  const onDateChange = (event: any, selectedDate?: Date) => {
+  const onDateChange = (event: DatePickerEvent | any, selectedDate?: Date) => {
     if (Platform.OS === 'web') {
       setNewSymptom(prev => ({ ...prev, date: event.target.value }));
     } else {
@@ -201,6 +200,12 @@ export default function SymptomsScreen() {
           onPress={() => navigation.navigate('Notes')}
         >
           <Text style={styles.navButtonText}>Notes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.navButton}
+          onPress={() => navigation.navigate('History')}
+        >
+          <Text style={styles.navButtonText}>History</Text>
         </TouchableOpacity>
       </View>
 
