@@ -245,7 +245,11 @@ export default function SymptomsScreen() {
             onChangeText={(text) => setNewSymptom(prev => ({ ...prev, name: text }))}
           />
           <View style={styles.sliderContainer}>
-            <Text style={styles.sliderLabel}>Severity (low is less and high is more): {newSymptom.severity}</Text>
+            <Text style={styles.sliderLabel}>
+              Severity {newSymptom.name.toLowerCase().includes('sleep') || newSymptom.name.toLowerCase().includes('executive') 
+                ? '(high is better)' 
+                : '(low is better)'}: {newSymptom.severity}
+            </Text>
             <Slider
               style={styles.slider}
               minimumValue={1}
